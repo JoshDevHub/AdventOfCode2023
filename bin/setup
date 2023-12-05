@@ -12,10 +12,10 @@ end
 # checks for command line arg for day name
 day_num = ARGV[0] || current_day_est
 missing_arg_msg = "Please enter a valid day number as a command line arg"
-raise ArgumentError, missing_arg_msg unless ("1".."25").cover?(day_num)
+raise ArgumentError, missing_arg_msg unless (1..25).cover?(day_num.to_i)
 
 # checks that day doesn't already exist
-dir_name = "day#{day_num.rjust(2, '0')}"
+dir_name = "day#{day_num.rjust(2, "0")}"
 day_exists_msg = "The directory for this day already exists"
 raise ArgumentError, day_exists_msg if Dir.exist?(dir_name)
 
