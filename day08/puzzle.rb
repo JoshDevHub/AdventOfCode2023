@@ -16,8 +16,8 @@ end
 
 dirs, node_data = ARGF.read.split("\n\n")
 
-node_data.split("\n").each do |datum|
-  parent, children = datum.split(" = ")
+node_data.each_line do |line|
+  parent, children = line.split(" = ")
   left, right = children.scan(/[A-Z]+/)
   Node.registry[parent] = Node.new(value: parent, left:, right:)
 end
