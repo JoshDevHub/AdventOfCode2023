@@ -7,9 +7,9 @@ def predict(numbers)
   yield(numbers, next_line)
 end
 
-pre = ->(nums, line) { nums.first - predict(line, &pre) }
 post = ->(nums, line) { nums.last + predict(line, &post) }
+pre = ->(nums, line) { nums.first - predict(line, &pre) }
 
-p(input.sum { predict(_1, &pre) }) # p1
+p(input.sum { predict(_1, &post) }) # p1
 
-p(input.sum { predict(_1, &post) }) # p2
+p(input.sum { predict(_1, &pre) }) # p2
