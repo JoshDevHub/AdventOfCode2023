@@ -1,10 +1,10 @@
 CHAR_MAP = {
-  "|" => [{ entry: :north, out: :north }, { entry: :south, out: :south }],
-  "-" => [{ entry: :east, out: :east }, { entry: :west, out: :west }],
-  "L" => [{ entry: :south, out: :east }, { entry: :west, out: :north }],
-  "J" => [{ entry: :east, out: :north }, { entry: :south, out: :west }],
-  "7" => [{ entry: :north, out: :west }, { entry: :east, out: :south }],
-  "F" => [{ entry: :north, out: :east }, { entry: :west, out: :south }]
+  "|" => { north: :north, south: :south },
+  "-" => { east: :east, west: :west },
+  "L" => { south: :east, west: :north },
+  "J" => { east: :north, south: :west },
+  "7" => { north: :west, east: :south },
+  "F" => { north: :east, west: :south }
 }.freeze
 
 DIRECTIONS = {
@@ -15,12 +15,8 @@ DIRECTIONS = {
 }.freeze
 
 Pipe = Data.define(:char) do
-  def travel(from:)
-    path = CHAR_MAP[char].find { |p| p[:entry] == from }
-    path[:out]
-  end
-
-  def enter?(dir) = CHAR_MAP[char].any? { |p| p[:entry] == dir }
+  def travel(from:) = CHAR_MAP[char].fetch(from)
+  def enter?(dir) = CHAR_MAP[char].key?(dir)
   def s_char? = char == "S"
 end
 
@@ -39,7 +35,7 @@ curr = { pos: move[s_row, s_col], dir: }
 step_count = 1
 loop do
   row, col = curr[:pos]
-  break if pipe_maze[row][col].char == "S"
+  break if pipe_maze[row][col].s_char?
 
   next_dir = pipe_maze[row][col].travel(from: curr[:dir])
   next_pos = DIRECTIONS[next_dir][row, col]
