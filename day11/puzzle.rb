@@ -30,11 +30,11 @@ end
 # p1
 p galaxies
   .combination(2)
-  .flat_map { |pair| distance_between_pair(pair) }
+  .map { |pair| distance_between_pair(pair) }
   .sum
 
 # p2
 p galaxies
   .combination(2)
-  .flat_map { |pair| distance_between_pair(pair, 999_999) }
+  .map { |pair| distance_between_pair(pair, 999_999) }
   .sum
