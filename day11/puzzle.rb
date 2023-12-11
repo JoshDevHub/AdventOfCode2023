@@ -20,8 +20,8 @@ end
 def distance_between_pair(pair, empty_factor = 1)
   pair => [row, col], [other_row, other_col]
 
-  col_count = EMPTY_COLS.count { |c| c.between?([other_col, col].min, [other_col, col].max) }
-  row_count = EMPTY_ROWS.count { |r| r.between?([other_row, row].min, [other_row, row].max) }
+  col_count = EMPTY_COLS.count { |c| c.between?(*[other_col, col].minmax) }
+  row_count = EMPTY_ROWS.count { |r| r.between?(*[other_row, row].minmax) }
   total_empties = col_count + row_count
 
   man_dist(row, col, other_row, other_col) + (total_empties * empty_factor)
