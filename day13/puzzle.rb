@@ -23,19 +23,19 @@ def find_mirror_idx(pattern, &diff_fn)
   nil
 end
 
+ROW_MULTIPLIER = 100
+def mirror_summary(pattern, &)
+  find_mirror_idx(pattern.transpose, &) || find_mirror_idx(pattern, &) * ROW_MULTIPLIER
+end
+
 patterns = ARGF.read.split("\n\n").map { |pattern| pattern.split.map(&:chars) }
 
-ROW_MULTIPLIER = 100
 total = patterns.sum do |pattern|
-  eq_check = ->(top, bottom) { top == bottom }
-  col_idx = find_mirror_idx(pattern.transpose, &eq_check)
-  col_idx || find_mirror_idx(pattern, &eq_check) * ROW_MULTIPLIER
+  mirror_summary(pattern) { |top, bottom| top == bottom }
 end
 p total # p1
 
 smudged_total = patterns.sum do |pattern|
-  one_diff = ->(top, bottom) { top.one_diff?(bottom) }
-  col_idx = find_mirror_idx(pattern.transpose, &one_diff)
-  col_idx || find_mirror_idx(pattern, &one_diff) * ROW_MULTIPLIER
+  mirror_summary(pattern) { |top, bottom| top.one_diff?(bottom) }
 end
 p smudged_total # p2
