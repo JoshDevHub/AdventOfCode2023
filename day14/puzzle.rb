@@ -53,9 +53,13 @@ loop do
 
   spin_cycle_data = cycle(spin_cycle_data)
   key = spin_cycle_data.map(&:join).join("\n")
-  exit_cycle = calculate_early_end(cache[key], cycle_count) if cache.key?(key) && exit_cycle.negative?
 
-  cache[key] = cycle_count
+  if cache.key?(key) && exit_cycle.negative?
+    exit_cycle = calculate_early_end(cache[key], cycle_count)
+  else
+    cache[key] = cycle_count
+  end
+
   cycle_count += 1
 end
 
