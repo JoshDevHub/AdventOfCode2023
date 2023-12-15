@@ -1,5 +1,5 @@
-def hash(string, offset = 0)
-  string.each_char.reduce(offset) do |code, char|
+def hash(string)
+  string.each_char.reduce(0) do |code, char|
     (((code + char.ord) * 17) % 256)
   end
 end
