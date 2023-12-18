@@ -70,8 +70,6 @@ class Dijkstra
       @q << candidate
     end
   end
-
-  def min_dist = @step_range.min
 end
 
 p Dijkstra.new(graph, min: 1, max: 3).search
